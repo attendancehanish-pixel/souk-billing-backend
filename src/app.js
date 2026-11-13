@@ -1,0 +1,25 @@
+import express from 'express';
+import cors from 'cors';
+import { env } from './config/env.js';
+import { errorHandler } from './utils/http.js';
+import auth from './features/auth/auth.routes.js';
+import users from './features/users/users.routes.js';
+import items from './features/items/items.routes.js';
+import students from './features/students/students.routes.js';
+import bills from './features/bills/bills.routes.js';
+import reports from './features/reports/reports.routes.js';
+import customers from './features/customers/customers.routes.js';
+
+const app = express();
+app.use(cors({ origin: env.corsOrigin.includes('*') ? true : env.corsOrigin }));
+app.use(express.json());
+app.get('/health', (_req, res) => res.json({ ok: true }));
+app.use('/api/auth', auth);
+app.use('/api/users', users);
+app.use('/api/items', items);
+app.use('/api/students', students);
+app.use('/api/bills', bills);
+app.use('/api/reports', reports);
+app.use('/api/customers', customers);
+app.use(errorHandler);
+export default app;
